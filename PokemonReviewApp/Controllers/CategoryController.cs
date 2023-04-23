@@ -58,7 +58,9 @@ public class CategoryController : Controller
             return NotFound();
         }
 
-        var pokemons = _mapper.Map<List<PokemonDto>>(_categoryRepository.GetPokemonsByCategory(categoryId));
+        var pokemons = _mapper.Map<List<PokemonDto>>(
+            _categoryRepository.GetPokemonsByCategory(categoryId)
+        );
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

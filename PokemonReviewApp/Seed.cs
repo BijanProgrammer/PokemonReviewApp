@@ -14,7 +14,10 @@ public class Seed
 
     public void SeedDataContext()
     {
-        if (_context.PokemonOwners.Any()) return;
+        if (_context.PokemonOwners.Any())
+        {
+            return;
+        }
 
         var pokemonOwners = new List<PokemonOwner>
         {
@@ -26,25 +29,30 @@ public class Seed
                     BirthDate = new DateTime(1903, 1, 1),
                     PokemonCategories = new List<PokemonCategory>
                     {
-                        new() {Category = new Category {Name = "Electric"}}
+                        new() { Category = new Category { Name = "Electric" } }
                     },
                     Reviews = new List<Review>
                     {
                         new()
                         {
-                            Title = "Pikachu", Text = "Pickahu is the best pokemon, because it is electric",
+                            Title = "Pikachu",
+                            Text = "Pickahu is the best pokemon, because it is electric",
                             Rating = 5,
-                            Reviewer = new Reviewer {FirstName = "Teddy", LastName = "Smith"}
+                            Reviewer = new Reviewer { FirstName = "Teddy", LastName = "Smith" }
                         },
                         new()
                         {
-                            Title = "Pikachu", Text = "Pickachu is the best a killing rocks", Rating = 5,
-                            Reviewer = new Reviewer {FirstName = "Taylor", LastName = "Jones"}
+                            Title = "Pikachu",
+                            Text = "Pickachu is the best a killing rocks",
+                            Rating = 5,
+                            Reviewer = new Reviewer { FirstName = "Taylor", LastName = "Jones" }
                         },
                         new()
                         {
-                            Title = "Pikachu", Text = "Pickchu, pickachu, pikachu", Rating = 1,
-                            Reviewer = new Reviewer {FirstName = "Jessica", LastName = "McGregor"}
+                            Title = "Pikachu",
+                            Text = "Pickchu, pickachu, pikachu",
+                            Rating = 1,
+                            Reviewer = new Reviewer { FirstName = "Jessica", LastName = "McGregor" }
                         }
                     }
                 },
@@ -53,10 +61,7 @@ public class Seed
                     FirstName = "Jack",
                     LastName = "London",
                     Gym = "Brocks Gym",
-                    Country = new Country
-                    {
-                        Name = "Kanto"
-                    }
+                    Country = new Country { Name = "Kanto" }
                 }
             },
             new()
@@ -67,25 +72,30 @@ public class Seed
                     BirthDate = new DateTime(1903, 1, 1),
                     PokemonCategories = new List<PokemonCategory>
                     {
-                        new() {Category = new Category {Name = "Water"}}
+                        new() { Category = new Category { Name = "Water" } }
                     },
                     Reviews = new List<Review>
                     {
                         new()
                         {
-                            Title = "Squirtle", Text = "squirtle is the best pokemon, because it is electric",
+                            Title = "Squirtle",
+                            Text = "squirtle is the best pokemon, because it is electric",
                             Rating = 5,
-                            Reviewer = new Reviewer {FirstName = "Teddy", LastName = "Smith"}
+                            Reviewer = new Reviewer { FirstName = "Teddy", LastName = "Smith" }
                         },
                         new()
                         {
-                            Title = "Squirtle", Text = "Squirtle is the best a killing rocks", Rating = 5,
-                            Reviewer = new Reviewer {FirstName = "Taylor", LastName = "Jones"}
+                            Title = "Squirtle",
+                            Text = "Squirtle is the best a killing rocks",
+                            Rating = 5,
+                            Reviewer = new Reviewer { FirstName = "Taylor", LastName = "Jones" }
                         },
                         new()
                         {
-                            Title = "Squirtle", Text = "squirtle, squirtle, squirtle", Rating = 1,
-                            Reviewer = new Reviewer {FirstName = "Jessica", LastName = "McGregor"}
+                            Title = "Squirtle",
+                            Text = "squirtle, squirtle, squirtle",
+                            Rating = 1,
+                            Reviewer = new Reviewer { FirstName = "Jessica", LastName = "McGregor" }
                         }
                     }
                 },
@@ -94,10 +104,7 @@ public class Seed
                     FirstName = "Harry",
                     LastName = "Potter",
                     Gym = "Mistys Gym",
-                    Country = new Country
-                    {
-                        Name = "Saffron City"
-                    }
+                    Country = new Country { Name = "Saffron City" }
                 }
             },
             new()
@@ -108,25 +115,30 @@ public class Seed
                     BirthDate = new DateTime(1903, 1, 1),
                     PokemonCategories = new List<PokemonCategory>
                     {
-                        new() {Category = new Category {Name = "Leaf"}}
+                        new() { Category = new Category { Name = "Leaf" } }
                     },
                     Reviews = new List<Review>
                     {
                         new()
                         {
-                            Title = "Veasaur", Text = "Venasuar is the best pokemon, because it is electric",
+                            Title = "Veasaur",
+                            Text = "Venasuar is the best pokemon, because it is electric",
                             Rating = 5,
-                            Reviewer = new Reviewer {FirstName = "Teddy", LastName = "Smith"}
+                            Reviewer = new Reviewer { FirstName = "Teddy", LastName = "Smith" }
                         },
                         new()
                         {
-                            Title = "Veasaur", Text = "Venasuar is the best a killing rocks", Rating = 5,
-                            Reviewer = new Reviewer {FirstName = "Taylor", LastName = "Jones"}
+                            Title = "Veasaur",
+                            Text = "Venasuar is the best a killing rocks",
+                            Rating = 5,
+                            Reviewer = new Reviewer { FirstName = "Taylor", LastName = "Jones" }
                         },
                         new()
                         {
-                            Title = "Veasaur", Text = "Venasuar, Venasuar, Venasuar", Rating = 1,
-                            Reviewer = new Reviewer {FirstName = "Jessica", LastName = "McGregor"}
+                            Title = "Veasaur",
+                            Text = "Venasuar, Venasuar, Venasuar",
+                            Rating = 1,
+                            Reviewer = new Reviewer { FirstName = "Jessica", LastName = "McGregor" }
                         }
                     }
                 },
@@ -135,10 +147,7 @@ public class Seed
                     FirstName = "Ash",
                     LastName = "Ketchum",
                     Gym = "Ashs Gym",
-                    Country = new Country
-                    {
-                        Name = "Millet Town"
-                    }
+                    Country = new Country { Name = "Millet Town" }
                 }
             }
         };

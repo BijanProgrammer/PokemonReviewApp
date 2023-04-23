@@ -25,8 +25,10 @@ public class OwnerRepository : IOwnerRepository
 
     public ICollection<Pokemon> GetPokemonsByOwner(int ownerId)
     {
-        return _context.PokemonOwners.Where(pokemonOwner => pokemonOwner.OwnerId == ownerId)
-            .Select(pokemonOwner => pokemonOwner.Pokemon).ToList();
+        return _context.PokemonOwners
+            .Where(pokemonOwner => pokemonOwner.OwnerId == ownerId)
+            .Select(pokemonOwner => pokemonOwner.Pokemon)
+            .ToList();
     }
 
     public bool DoesOwnerExist(int ownerId)

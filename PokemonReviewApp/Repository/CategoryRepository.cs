@@ -25,8 +25,9 @@ public class CategoryRepository : ICategoryRepository
 
     public ICollection<Pokemon> GetPokemonsByCategory(int categoryId)
     {
-        var pokemonCategories =
-            _context.PokemonCategories.Where(pokemonCategory => pokemonCategory.CategoryId == categoryId);
+        var pokemonCategories = _context.PokemonCategories.Where(
+            pokemonCategory => pokemonCategory.CategoryId == categoryId
+        );
         return pokemonCategories.Select(pokemonCategory => pokemonCategory.Pokemon).ToList();
     }
 
