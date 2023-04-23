@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PokemonReviewApp.Dto;
 using PokemonReviewApp.Interfaces;
 
-namespace CategoryReviewApp.Controllers;
+namespace PokemonReviewApp.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

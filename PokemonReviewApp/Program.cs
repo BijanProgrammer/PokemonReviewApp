@@ -47,9 +47,9 @@ app.MapControllers();
 app.Run();
 
 // Helper Methods
-void SeedData(IHost app)
+void SeedData(IHost host)
 {
-    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+    var scopedFactory = host.Services.GetService<IServiceScopeFactory>();
 
     using var scope = scopedFactory?.CreateScope();
     var service = scope?.ServiceProvider.GetService<Seed>();

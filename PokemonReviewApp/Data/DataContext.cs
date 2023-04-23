@@ -24,7 +24,7 @@ public class DataContext : DbContext
         OnPokemonOwnerCreating(modelBuilder);
     }
 
-    private void OnPokemonCategoryCreating(ModelBuilder modelBuilder)
+    private static void OnPokemonCategoryCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<PokemonCategory>()
             .HasKey(pokemonCategory => new {pokemonCategory.PokemonId, pokemonCategory.CategoryId});
@@ -40,7 +40,7 @@ public class DataContext : DbContext
             .HasForeignKey(pokemonCategory => pokemonCategory.CategoryId);
     }
 
-    private void OnPokemonOwnerCreating(ModelBuilder modelBuilder)
+    private static void OnPokemonOwnerCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<PokemonOwner>()
             .HasKey(pokemonOwner => new {pokemonOwner.PokemonId, pokemonOwner.OwnerId});
