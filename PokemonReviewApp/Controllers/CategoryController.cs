@@ -30,17 +30,17 @@ public class CategoryController : Controller
         return Ok(categories);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{categoryId:int}")]
     [ProducesResponseType(200, Type = typeof(CategoryDto))]
     [ProducesResponseType(400)]
-    public IActionResult GetCategory(int id = 2)
+    public IActionResult GetCategory(int categoryId = 2)
     {
-        if (!_categoryRepository.DoesCategoryExist(id))
+        if (!_categoryRepository.DoesCategoryExist(categoryId))
         {
             return NotFound();
         }
 
-        var category = _mapper.Map<CategoryDto>(_categoryRepository.GetCategory(id));
+        var category = _mapper.Map<CategoryDto>(_categoryRepository.GetCategory(categoryId));
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -48,17 +48,17 @@ public class CategoryController : Controller
         return Ok(category);
     }
 
-    [HttpGet("{id:int}/pokemons")]
+    [HttpGet("{categoryId:int}/pokemons")]
     [ProducesResponseType(200, Type = typeof(IEnumerable<PokemonDto>))]
     [ProducesResponseType(400)]
-    public IActionResult GetPokemonsByCategory(int id = 2)
+    public IActionResult GetPokemonsByCategory(int categoryId = 2)
     {
-        if (!_categoryRepository.DoesCategoryExist(id))
+        if (!_categoryRepository.DoesCategoryExist(categoryId))
         {
             return NotFound();
         }
 
-        var pokemons = _mapper.Map<List<PokemonDto>>(_categoryRepository.GetPokemonsByCategory(id));
+        var pokemons = _mapper.Map<List<PokemonDto>>(_categoryRepository.GetPokemonsByCategory(categoryId));
 
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

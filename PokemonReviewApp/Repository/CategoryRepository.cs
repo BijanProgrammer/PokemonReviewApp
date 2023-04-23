@@ -15,22 +15,23 @@ public class CategoryRepository : ICategoryRepository
 
     public ICollection<Category> GetCategories()
     {
-        return _context.Categories.OrderBy(c => c.Id).ToList();
+        return _context.Categories.OrderBy(category => category.Id).ToList();
     }
 
-    public Category GetCategory(int id)
+    public Category GetCategory(int categoryId)
     {
-        return _context.Categories.FirstOrDefault(c => c.Id == id);
+        return _context.Categories.FirstOrDefault(category => category.Id == categoryId);
     }
 
-    public ICollection<Pokemon> GetPokemonsByCategory(int id)
+    public ICollection<Pokemon> GetPokemonsByCategory(int categoryId)
     {
-        var pokemonCategories = _context.PokemonCategories.Where(pc => pc.CategoryId == id);
-        return pokemonCategories.Select(pc => pc.Pokemon).ToList();
+        var pokemonCategories =
+            _context.PokemonCategories.Where(pokemonCategory => pokemonCategory.CategoryId == categoryId);
+        return pokemonCategories.Select(pokemonCategory => pokemonCategory.Pokemon).ToList();
     }
 
-    public bool DoesCategoryExist(int id)
+    public bool DoesCategoryExist(int categoryId)
     {
-        return _context.Categories.Any(c => c.Id == id);
+        return _context.Categories.Any(category => category.Id == categoryId);
     }
 }

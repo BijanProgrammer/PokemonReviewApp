@@ -15,33 +15,33 @@ public class PokemonRepository : IPokemonRepository
 
     public ICollection<Pokemon> GetPokemons()
     {
-        return _context.Pokemons.OrderBy(p => p.Id).ToList();
+        return _context.Pokemons.OrderBy(pokemon => pokemon.Id).ToList();
     }
 
-    public Pokemon GetPokemon(int id)
+    public Pokemon GetPokemon(int pokemonId)
     {
-        return _context.Pokemons.FirstOrDefault(p => p.Id == id);
+        return _context.Pokemons.FirstOrDefault(pokemon => pokemon.Id == pokemonId);
     }
 
-    public Pokemon GetPokemon(string name)
+    public Pokemon GetPokemon(string pokemonName)
     {
-        return _context.Pokemons.FirstOrDefault(p => p.Name == name);
+        return _context.Pokemons.FirstOrDefault(pokemon => pokemon.Name == pokemonName);
     }
 
-    public decimal GetPokemonRating(int id)
+    public decimal GetPokemonRating(int pokemonId)
     {
-        var reviews = _context.Reviews.Where(r => r.Pokemon.Id == id);
+        var reviews = _context.Reviews.Where(review => review.Pokemon.Id == pokemonId);
 
         if (!reviews.Any())
         {
             return 0;
         }
 
-        return reviews.Sum(r => r.Rating) / reviews.Count();
+        return reviews.Sum(review => review.Rating) / reviews.Count();
     }
 
-    public bool DoesPokemonExist(int id)
+    public bool DoesPokemonExist(int pokemonId)
     {
-        return _context.Pokemons.Any(p => p.Id == id);
+        return _context.Pokemons.Any(pokemon => pokemon.Id == pokemonId);
     }
 }
