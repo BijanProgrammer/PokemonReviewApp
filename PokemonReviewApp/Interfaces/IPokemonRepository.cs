@@ -11,5 +11,6 @@ public interface IPokemonRepository
     bool DoesPokemonExist(int pokemonId);
     bool DoesPokemonExist(string pokemonName);
     bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon);
+    bool UpdatePokemon(int ownerId, int categoryId, Pokemon pokemon);
     bool Save();
 }

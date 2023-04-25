@@ -56,14 +56,29 @@ public class PokemonRepository : IPokemonRepository
     {
         var owner = _context.Owners.FirstOrDefault(owner => owner.Id == ownerId);
         var pokemonOwner = new PokemonOwner { Owner = owner, Pokemon = pokemon };
-        _context.Add(pokemonOwner);
 
         var category = _context.Categories.FirstOrDefault(category => category.Id == categoryId);
         var pokemonCategory = new PokemonCategory { Category = category, Pokemon = pokemon, };
-        _context.Add(pokemonCategory);
+
+        pokemon.PokemonOwners = new List<PokemonOwner> { pokemonOwner };
+        pokemon.PokemonCategories = new List<PokemonCategory>() { pokemonCategory };
 
         _context.Add(pokemon);
+        return Save();
+    }
 
+    public bool UpdatePokemon(int ownerId, int categoryId, Pokemon pokemon)
+    {
+        var owner = _context.Owners.FirstOrDefault(owner => owner.Id == ownerId);
+        var pokemonOwner = new PokemonOwner { Owner = owner, Pokemon = pokemon };
+
+        var category = _context.Categories.FirstOrDefault(category => category.Id == categoryId);
+        var pokemonCategory = new PokemonCategory { Category = category, Pokemon = pokemon, };
+
+        pokemon.PokemonOwners = new List<PokemonOwner> { pokemonOwner };
+        pokemon.PokemonCategories = new List<PokemonCategory>() { pokemonCategory };
+
+        _context.Update(pokemon);
         return Save();
     }
 

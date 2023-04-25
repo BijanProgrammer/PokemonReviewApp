@@ -137,4 +137,62 @@ public class PokemonController : Controller
 
         return Ok("Created successfully");
     }
+
+    [HttpPut("{pokemonId:int}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult UpdatePokemon(
+        int pokemonId,
+        [FromQuery] int ownerId,
+        [FromQuery] int categoryId,
+        [FromBody] PokemonDto? pokemonDto
+    )
+    {
+        if (pokemonDto == null)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (pokemonDto.Id != pokemonId)
+        {
+            ModelState.AddModelError(
+                "Validation",
+                "`pokemonDto.Id` is not the same as `pokemonId`"
+            );
+            return BadRequest(ModelState);
+        }
+
+        if (!_ownerRepository.DoesOwnerExist(ownerId))
+        {
+            ModelState.AddModelError("Validation", "Owner does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (!_categoryRepository.DoesCategoryExist(categoryId))
+        {
+            ModelState.AddModelError("Validation", "Category does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (!_pokemonRepository.DoesPokemonExist(pokemonDto.Id))
+        {
+            ModelState.AddModelError("Validation", "Pokemon does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var pokemon = _mapper.Map<Pokemon>(pokemonDto);
+        if (!_pokemonRepository.UpdatePokemon(ownerId, categoryId, pokemon))
+        {
+            ModelState.AddModelError("Unknown", "Something went wrong");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Updated successfully");
+    }
 }
