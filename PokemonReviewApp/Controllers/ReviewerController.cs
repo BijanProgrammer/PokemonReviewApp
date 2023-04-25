@@ -70,7 +70,7 @@ public class ReviewerController : Controller
     }
 
     [HttpPost]
-    [ProducesResponseType(204)]
+    [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     public IActionResult CreateReviewer([FromBody] ReviewerDto? reviewerDto)
     {

@@ -59,7 +59,7 @@ public class ReviewController : Controller
     }
 
     [HttpPost]
-    [ProducesResponseType(204)]
+    [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(404)]
     public IActionResult CreateReview(
