@@ -10,5 +10,6 @@ public interface IOwnerRepository
     bool DoesOwnerExist(int ownerId);
     bool DoesOwnerExist(string ownerFirstName, string ownerLastName);
     bool CreateOwner(Owner owner);
+    bool UpdateOwner(Owner owner);
     bool Save();
 }

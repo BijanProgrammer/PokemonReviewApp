@@ -110,4 +110,42 @@ public class OwnerController : Controller
 
         return Ok("Created successfully");
     }
+
+    [HttpPut("{ownerId:int}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult UpdateOwner(int ownerId, [FromBody] OwnerDto? ownerDto)
+    {
+        if (ownerDto == null)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (ownerDto.Id != ownerId)
+        {
+            ModelState.AddModelError("Validation", "`ownerDto.Id` is not the same as `ownerId`");
+            return BadRequest(ModelState);
+        }
+
+        if (!_ownerRepository.DoesOwnerExist(ownerDto.FirstName, ownerDto.LastName))
+        {
+            ModelState.AddModelError("Validation", "Owner does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var owner = _mapper.Map<Owner>(ownerDto);
+        if (!_ownerRepository.UpdateOwner(owner))
+        {
+            ModelState.AddModelError("Unknown", "Something went wrong");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Updated successfully");
+    }
 }
