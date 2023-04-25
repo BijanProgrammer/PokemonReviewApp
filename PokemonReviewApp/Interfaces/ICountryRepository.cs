@@ -11,5 +11,6 @@ public interface ICountryRepository
     bool DoesCountryExist(int countryId);
     bool DoesCountryExist(string countryName);
     bool CreateCountry(Country country);
+    bool UpdateCountry(Country country);
     bool Save();
 }
