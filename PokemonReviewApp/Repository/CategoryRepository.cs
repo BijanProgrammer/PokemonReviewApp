@@ -35,4 +35,23 @@ public class CategoryRepository : ICategoryRepository
     {
         return _context.Categories.Any(category => category.Id == categoryId);
     }
+
+    public bool DoesCategoryExist(string categoryName)
+    {
+        return _context.Categories.Any(
+            category => string.Equals(category.Name.Trim(), categoryName.Trim())
+        );
+    }
+
+    public bool CreateCategory(Category category)
+    {
+        _context.Add(category);
+        return Save();
+    }
+
+    public bool Save()
+    {
+        var changedStatesCount = _context.SaveChanges();
+        return changedStatesCount > 0;
+    }
 }

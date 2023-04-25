@@ -41,4 +41,21 @@ public class CountryRepository : ICountryRepository
     {
         return _context.Countries.Any(country => country.Id == countryId);
     }
+
+    public bool DoesCountryExist(string countryName)
+    {
+        return _context.Countries.Any(country => string.Equals(country.Name, countryName));
+    }
+
+    public bool CreateCountry(Country country)
+    {
+        _context.Add(country);
+        return Save();
+    }
+
+    public bool Save()
+    {
+        var changedStatesCount = _context.SaveChanges();
+        return changedStatesCount > 0;
+    }
 }

@@ -14,5 +14,10 @@ public class MappingProfiles : Profile
         CreateMap<Owner, OwnerDto>();
         CreateMap<Review, ReviewDto>();
         CreateMap<Reviewer, ReviewerDto>();
+
+        CreateMap<PokemonDto, Pokemon>();
+        CreateMap<CategoryDto, Category>();
+        CreateMap<CountryDto, Country>();
+        CreateMap<OwnerDto, Owner>();
     }
 }

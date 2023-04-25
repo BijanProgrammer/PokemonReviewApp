@@ -35,4 +35,25 @@ public class OwnerRepository : IOwnerRepository
     {
         return _context.Owners.Any(owner => owner.Id == ownerId);
     }
+
+    public bool DoesOwnerExist(string ownerFirstName, string ownerLastName)
+    {
+        return _context.Owners.Any(
+            owner =>
+                string.Equals(owner.FirstName, ownerFirstName)
+                && string.Equals(owner.LastName, ownerLastName)
+        );
+    }
+
+    public bool CreateOwner(Owner owner)
+    {
+        _context.Add(owner);
+        return Save();
+    }
+
+    public bool Save()
+    {
+        var changedStatesCount = _context.SaveChanges();
+        return changedStatesCount > 0;
+    }
 }

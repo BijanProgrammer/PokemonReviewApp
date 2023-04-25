@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PokemonReviewApp.Dto;
 using PokemonReviewApp.Interfaces;
+using PokemonReviewApp.Models;
 
 namespace PokemonReviewApp.Controllers;
 
@@ -9,11 +11,20 @@ namespace PokemonReviewApp.Controllers;
 [ApiController]
 public class PokemonController : Controller
 {
+    private readonly IOwnerRepository _ownerRepository;
+    private readonly ICategoryRepository _categoryRepository;
     private readonly IPokemonRepository _pokemonRepository;
     private readonly IMapper _mapper;
 
-    public PokemonController(IPokemonRepository pokemonRepository, IMapper mapper)
+    public PokemonController(
+        IOwnerRepository ownerRepository,
+        ICategoryRepository categoryRepository,
+        IPokemonRepository pokemonRepository,
+        IMapper mapper
+    )
     {
+        _ownerRepository = ownerRepository;
+        _categoryRepository = categoryRepository;
         _pokemonRepository = pokemonRepository;
         _mapper = mapper;
     }
@@ -77,5 +88,53 @@ public class PokemonController : Controller
             return BadRequest(ModelState);
 
         return Ok(rating);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult CreatePokemon(
+        [FromQuery] int ownerId,
+        [FromQuery] int categoryId,
+        [FromBody] PokemonDto? pokemonDto
+    )
+    {
+        if (pokemonDto == null)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (!_ownerRepository.DoesOwnerExist(ownerId))
+        {
+            ModelState.AddModelError("Validation", "Owner does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (!_categoryRepository.DoesCategoryExist(categoryId))
+        {
+            ModelState.AddModelError("Validation", "Category does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (_pokemonRepository.DoesPokemonExist(pokemonDto.Name))
+        {
+            ModelState.AddModelError("Validation", "Pokemon already exists");
+            return StatusCode(400, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var pokemon = _mapper.Map<Pokemon>(pokemonDto);
+        if (!_pokemonRepository.CreatePokemon(ownerId, categoryId, pokemon))
+        {
+            ModelState.AddModelError("Unknown", "Something went wrong");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Created successfully");
     }
 }

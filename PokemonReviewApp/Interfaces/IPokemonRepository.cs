@@ -9,4 +9,7 @@ public interface IPokemonRepository
     Pokemon GetPokemon(string pokemonName);
     decimal GetPokemonRating(int pokemonId);
     bool DoesPokemonExist(int pokemonId);
+    bool DoesPokemonExist(string pokemonName);
+    bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon);
+    bool Save();
 }

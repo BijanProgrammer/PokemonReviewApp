@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PokemonReviewApp.Dto;
 using PokemonReviewApp.Interfaces;
+using PokemonReviewApp.Models;
 
 namespace PokemonReviewApp.Controllers;
 
@@ -9,11 +10,17 @@ namespace PokemonReviewApp.Controllers;
 [ApiController]
 public class OwnerController : Controller
 {
+    private readonly ICountryRepository _countryRepository;
     private readonly IOwnerRepository _ownerRepository;
     private readonly IMapper _mapper;
 
-    public OwnerController(IOwnerRepository ownerRepository, IMapper mapper)
+    public OwnerController(
+        ICountryRepository countryRepository,
+        IOwnerRepository ownerRepository,
+        IMapper mapper
+    )
     {
+        _countryRepository = countryRepository;
         _ownerRepository = ownerRepository;
         _mapper = mapper;
     }
@@ -64,5 +71,43 @@ public class OwnerController : Controller
             return BadRequest(ModelState);
 
         return Ok(pokemons);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult CreateOwner([FromQuery] int countryId, [FromBody] OwnerDto? ownerDto)
+    {
+        if (ownerDto == null)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (!_countryRepository.DoesCountryExist(countryId))
+        {
+            ModelState.AddModelError("Validation", "Country does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (_ownerRepository.DoesOwnerExist(ownerDto.FirstName, ownerDto.LastName))
+        {
+            ModelState.AddModelError("Validation", "Owner already exists");
+            return BadRequest(ModelState);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var owner = _mapper.Map<Owner>(ownerDto);
+        if (!_ownerRepository.CreateOwner(owner))
+        {
+            ModelState.AddModelError("Unknown", "Something went wrong");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Created successfully");
     }
 }
