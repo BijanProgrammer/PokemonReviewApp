@@ -20,5 +20,6 @@ public class MappingProfiles : Profile
         CreateMap<CountryDto, Country>();
         CreateMap<OwnerDto, Owner>();
         CreateMap<ReviewDto, Review>();
+        CreateMap<ReviewerDto, Reviewer>();
     }
 }

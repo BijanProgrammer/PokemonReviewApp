@@ -36,4 +36,25 @@ public class ReviewerRepository : IReviewerRepository
     {
         return _context.Reviewers.Any(reviewer => reviewer.Id == reviewerId);
     }
+
+    public bool DoesReviewerExist(string reviewerFirstName, string reviewerLastName)
+    {
+        return _context.Reviewers.Any(
+            reviewer =>
+                string.Equals(reviewer.FirstName, reviewerFirstName)
+                && string.Equals(reviewer.LastName, reviewerLastName)
+        );
+    }
+
+    public bool CreateReviewer(Reviewer reviewer)
+    {
+        _context.Add(reviewer);
+        return Save();
+    }
+
+    public bool Save()
+    {
+        var changedStatesCount = _context.SaveChanges();
+        return changedStatesCount > 0;
+    }
 }
