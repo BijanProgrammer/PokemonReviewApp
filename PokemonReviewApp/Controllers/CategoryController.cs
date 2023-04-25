@@ -70,7 +70,7 @@ public class CategoryController : Controller
     }
 
     [HttpPost]
-    [ProducesResponseType(204)]
+    [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     public IActionResult CreateCategory([FromBody] CategoryDto? categoryDto)
     {
@@ -98,5 +98,46 @@ public class CategoryController : Controller
         }
 
         return Ok("Created successfully");
+    }
+
+    [HttpPut("{categoryId:int}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult UpdateCategory(int categoryId, [FromBody] CategoryDto? categoryDto)
+    {
+        if (categoryDto == null)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (categoryDto.Id != categoryId)
+        {
+            ModelState.AddModelError(
+                "Validation",
+                "`categoryDto.Id` is not the same as `categoryId`"
+            );
+            return BadRequest(ModelState);
+        }
+
+        if (!_categoryRepository.DoesCategoryExist(categoryDto.Name))
+        {
+            ModelState.AddModelError("Validation", "Category does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var category = _mapper.Map<Category>(categoryDto);
+        if (!_categoryRepository.UpdateCategory(category))
+        {
+            ModelState.AddModelError("Unknown", "Something went wrong");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Updated successfully");
     }
 }
