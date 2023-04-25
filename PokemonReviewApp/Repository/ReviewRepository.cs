@@ -42,7 +42,18 @@ public class ReviewRepository : IReviewRepository
         review.Pokemon = pokemon;
 
         _context.Add(review);
+        return Save();
+    }
 
+    public bool UpdateReview(int reviewerId, int pokemonId, Review review)
+    {
+        var reviewer = _context.Reviewers.FirstOrDefault(reviewer => reviewer.Id == reviewerId);
+        var pokemon = _context.Pokemons.FirstOrDefault(pokemon => pokemon.Id == pokemonId);
+
+        review.Reviewer = reviewer;
+        review.Pokemon = pokemon;
+
+        _context.Update(review);
         return Save();
     }
 

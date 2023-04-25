@@ -105,4 +105,59 @@ public class ReviewController : Controller
 
         return Ok("Created successfully");
     }
+
+    [HttpPut("{reviewId:int}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult UpdateReview(
+        int reviewId,
+        [FromQuery] int reviewerId,
+        [FromQuery] int pokemonId,
+        [FromBody] ReviewDto? reviewDto
+    )
+    {
+        if (reviewDto == null)
+        {
+            return BadRequest(ModelState);
+        }
+
+        if (reviewDto.Id != reviewId)
+        {
+            ModelState.AddModelError("Validation", "`reviewDto.Id` is not the same as `reviewId`");
+            return BadRequest(ModelState);
+        }
+
+        if (!_reviewerRepository.DoesReviewerExist(reviewerId))
+        {
+            ModelState.AddModelError("Validation", "Reviewer does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (!_pokemonRepository.DoesPokemonExist(pokemonId))
+        {
+            ModelState.AddModelError("Validation", "Pokemon does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (!_reviewRepository.DoesReviewExist(reviewDto.Id))
+        {
+            ModelState.AddModelError("Validation", "Review does not exist");
+            return StatusCode(404, ModelState);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var review = _mapper.Map<Review>(reviewDto);
+        if (!_reviewRepository.UpdateReview(reviewerId, pokemonId, review))
+        {
+            ModelState.AddModelError("Unknown", "Something went wrong");
+            return StatusCode(500, ModelState);
+        }
+
+        return Ok("Updated successfully");
+    }
 }
